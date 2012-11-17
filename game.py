@@ -5,45 +5,49 @@ class Player(object):
 
 	def __init__(self):
 		self.health = 100
-		self.weapons = []
-		self.carried_items = []
+	
+	def swing_sword(self):
+		print "you swung your sword"
 
-class House(object):
-	player = Player()
+	def punch(self):
+		print "you punched the dragon!"
 
-	def living_room(self):
+class Dragon(object):
+	
+	def __init__(self):
+		self.health = 100
 
-		print "You're currently home."
-		print "You currently have %d health, %d weapons, %d carried items" % (player.health, len(player.weapons), len(player.carried_items))
-		print "There are several items:"
-		print "1. A Sword"
-		print "2. Healing Potion"
-		print "3. A Bow & Arrow"
+	def swing_tail(self):
+		print "The dragon swung its tail."
+	
+	def breath_fire():
+		print "The dragon breathed fire."
 
-		while True:
-			print "Enter the number next to the item you want to pick up. Press 'x' to exit."
-			pick_up = raw_input("> ")
+class Battle(object):
+	
+	def __init__(self):
+		self.player = Player()
+		self.dragon = Dragon()
 
-			if pick_up == "1":
-				player.weapons.append("sword")
-				print "You picked up the sword."
-				print "Your Inventory: "
-				print "You have %d weapons, %d carried items, and %d health" % (player.health, len(player.weapons), len(player.carried_items))
+	def start_battle(self):
+		print "The battle has begun!"
+		prompts.battle_prompt(self.player.health, self.dragon.health)
+		self.battle()
+	
+	def battle(self):
 
-			elif pick_up == "2":
-				player.carried_items.append("Potion")
-				print "You picked up the potion."
+		while self.player.health != 0 and self.dragon.health != 0:
+			action = raw_input("> ")
 
-			elif pick_up == "3":
-				player.weapons.append("bow & arrow")
-				print "You picked up the bow & arrow."
+			if action == "punch":
+				self.player.punch
+			elif action == "avoid":
+				print "You avoided it!"
 
-			elif pick_up == "x":
-				break
-
-			else:
-				print "enter the number next to the item you want to pick up."
-				pick_up = raw_input("> ")
+			if self.player.health == 0:
+				print "You lost"
+			elif self.dragon.health == 0:
+				print "You won!"
 
 
 class Game(object):
@@ -52,14 +56,14 @@ class Game(object):
 		self.response = response
 
 		if self.response.lower() == "play":
-			house = House()
-			house.living_room()
+			battle = Battle()
+			battle.start_battle()
 
 		else:
 			while True:
 				if self.response.lower() == "yes":
-					house = House()
-					house.living_room()
+					battle = Battle()
+					battle.start_battle()
 					
 				elif self.response.lower() == "no":
 					print "good bye.".title()
