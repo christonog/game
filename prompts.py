@@ -7,7 +7,7 @@ def start_game():
 
 	print "Type \"play\" to start."
 
-def battle_prompt(player, dragon):
+def start_battle_prompt(player, dragon):
 	print "You have %d health, while the dragon has %d health." % (player, dragon)
 	print "You can do one of three actions:"
 	print "You can punch, enter 'punch'"
