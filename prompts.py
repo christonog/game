@@ -9,6 +9,16 @@ def start_game():
 
 def battle_prompt(player, dragon):
 	print "You have %d health, while the dragon has %d health." % (player, dragon)
-	print "You can "
+	print "You can do one of three actions:"
+	print "You can punch, enter 'punch'"
+	print "You can swing your sword, enter 'swing sword'"
 	print "What do you do?"
-	
+
+def punch_attack_prompt(damage_inflicted, enemy_health, death):
+	print "you punched the dragon!"
+	print "You inflicted %d damage" % damage_inflicted
+	print "The dragon has %d health left" % (enemy_health if enemy_health >= 0 else death)
+
+def swing_sword_attack_prompt():
+	print "you swung your sword!"
+	print "It ended up being a critical hit and killed the dragon."

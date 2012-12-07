@@ -1,16 +1,35 @@
 from sys import exit
+from random import randint
+from time import sleep
 import prompts
+
+DEATH = 0 # player and dragon death
+TIME_TIL_DRAGON_ATTACK = 5 # in seconds
 
 class Player(object):
 
+	""" sets the player's health at 100 hit points
+	
+	"""
 	def __init__(self):
 		self.health = 100
 	
-	def swing_sword(self):
-		print "you swung your sword"
+	""" this occurs when the player swings their sword in battle
 
-	def punch(self):
-		print "you punched the dragon!"
+	"""
+
+	def swing_sword(self):
+		prompts.swing_sword_attack_prompt()
+
+	""" this occurs when the player selects punch in battle
+
+	"""
+
+	def punch(self, damage_inflicted, enemy_health):
+		prompts.attack_prompt(damage_inflicted, enemy_health, DEATH)
+
+	def avoid_dragon_attack(self):
+		print "You avoided it!"
 
 class Dragon(object):
 	
@@ -36,19 +55,33 @@ class Battle(object):
 	
 	def battle(self):
 
-		while self.player.health != 0 and self.dragon.health != 0:
+		while self.player.health > DEATH and self.dragon.health > DEATH:
+
 			action = raw_input("> ")
-
+			# sleep(TIME_TIL_DRAGON_ATTACK)
 			if action == "punch":
-				self.player.punch
+				damage_inflicted = randint(20, 100)
+				self.dragon.health -= damage_inflicted
+				self.player.punch(damage_inflicted, self.dragon.health)
+				self.did_player_win()
+
 			elif action == "avoid":
-				print "You avoided it!"
+				self.player.avoid_dragon_attack()
 
-			if self.player.health == 0:
-				print "You lost"
-			elif self.dragon.health == 0:
-				print "You won!"
+			elif action == "swing sword":
+				self.player.swing_sword()
+				self.dragon.health -= 100
+				self.did_player_win()
 
+			else:
+				print "please select an action"
+				action = raw_input("> ")
+
+	def did_player_win(self):
+		if self.player.health <= DEATH:
+			print "You lost"
+		elif self.dragon.health <= DEATH:
+			print "You won!"
 
 class Game(object):
 
